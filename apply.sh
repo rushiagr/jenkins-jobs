@@ -2,7 +2,7 @@
 
 if [ ! -e venv ]
 then
-    virtualenv env
+    virtualenv venv
     . venv/bin/activate
     pip install -e bzr+http://bazaar.launchpad.net/~soren/python-jenkins/add-crumb#egg=jenkins
     pip install pyyaml
