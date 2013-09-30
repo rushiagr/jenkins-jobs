@@ -1,0 +1,77 @@
+- job-template:
+    name: "{name}-upstream"
+    project-type: freestyle
+    scm:
+      - git:
+          url: https://github.com/openstack/{name}.git
+          branches:
+            - master
+    triggers:
+      - pollscm: "*/15 * * * *"
+
+    builders:
+      - shell: "tox -e py27"
+
+    properties:
+      - github:
+          url: https://github.com/openstack/{name}/
+
+- job-group:
+    name: upstream-project
+    jobs:
+      - "{name}-upstream"
+
+- project:
+    name: nova
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-novaclient
+    jobs:
+      - upstream-project
+
+- project:
+    name: glance
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-glanceclient
+    jobs:
+      - upstream-project
+
+- project:
+    name: horizon
+    jobs:
+      - upstream-project
+
+- project:
+    name: swift
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-swiftclient
+    jobs:
+      - upstream-project
+
+- project:
+    name: keystone
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-keystoneclient
+    jobs:
+      - upstream-project
+
+- project:
+    name: neutron
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-neutronclient
+    jobs:
+      - upstream-project

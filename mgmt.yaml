@@ -1,0 +1,17 @@
+- job:
+    name: "jobs-refresh"
+    project-type: freestyle
+    scm:
+      - git:
+          url: https://github.com/jiocloud/jenkins-jobs.git
+          branches:
+            - master
+    triggers:
+      - pollscm: "*/5 * * * *"
+
+    builders:
+      - shell: "./apply.sh"
+
+    properties:
+      - github:
+          url: https://github.com/jiocloud/jenkins-jobs.git
