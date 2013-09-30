@@ -3,7 +3,7 @@
     project-type: freestyle
     scm:
       - git:
-          url: https://github.com/jiocloud/jenkins-jobs.git
+          url: https://github.com/JioCloud/jenkins-jobs.git
           branches:
             - master
     triggers:
@@ -14,4 +14,4 @@
 
     properties:
       - github:
-          url: https://github.com/jiocloud/jenkins-jobs.git
+          url: https://github.com/JioCloud/jenkins-jobs.git
