@@ -15,7 +15,14 @@ cat *.yaml > "${tmp}"
 
 . venv/bin/activate
 
-jenkins-jobs update --delete-old ${tmp} $@
+if [ $# -eq 0 ]
+then
+    delete_old="--delete-old "
+else
+    delete_old=""
+fi
+
+jenkins-jobs update ${delete_old} ${tmp} $@
 
 deactivate
 
