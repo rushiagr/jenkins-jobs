@@ -9,7 +9,7 @@
           wipe-workspace: false
 
     triggers:
-      - pollscm: "*/5 * * * *"
+      - pollscm: "H/5 * * * *"
 
     builders:
       - shell: |

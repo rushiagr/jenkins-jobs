@@ -7,7 +7,7 @@
           branches:
             - master
     triggers:
-      - pollscm: "*/15 * * * *"
+      - pollscm: "H/15 * * * *"
 
     builders:
       - shell: "tox -e py27"
