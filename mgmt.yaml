@@ -6,6 +6,8 @@
           url: https://github.com/JioCloud/jenkins-jobs
           branches:
             - master
+          wipe-workspace: false
+
     triggers:
       - pollscm: "*/5 * * * *"
 
