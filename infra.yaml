@@ -1,0 +1,39 @@
+- job:
+    name: "infra-docs"
+    project-type: freestyle
+    scm:
+      - git:
+          url: https://github.com/JioCloud/infrastructure-docs
+          branches:
+            - master
+          wipe-workspace: false
+
+    triggers:
+      - pollscm: "*/5 * * * *"
+
+    builders:
+      - shell: |
+               #!/bin/sh
+               if [ ! -e venv ]
+               then
+                   virtualenv venv
+                   . venv/bin/activate
+                   pip install sphinx
+               fi
+
+      - shell: |
+               #!/bin/sh
+               . venv/bin/activate
+               make html
+               deactivate
+
+    publishers:
+      - ssh:
+          site: 'docs'
+          target: 'infra'
+          source: 'build/html/**'
+          remove-prefix: 'build/html'
+
+    properties:
+      - github:
+          url: https://github.com/JioCloud/infrastructure-docs
