@@ -1,6 +1,7 @@
 - job-template:
     name: "{name}-upstream"
     project-type: freestyle
+    node: cloud
     scm:
       - git:
           url: https://github.com/openstack/{name}.git
