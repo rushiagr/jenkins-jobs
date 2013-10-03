@@ -76,3 +76,14 @@
     name: python-neutronclient
     jobs:
       - upstream-project
+
+- project:
+    name: cinder
+    jobs:
+      - upstream-project
+
+- project:
+    name: python-cinderclient
+    jobs:
+      - upstream-project
+
