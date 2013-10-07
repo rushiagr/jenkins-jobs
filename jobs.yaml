@@ -17,6 +17,12 @@
       - github:
           url: https://github.com/openstack/{name}/
 
+    publishers:
+      - ircbot:
+          strategy: any-failure
+          matrix-notifier: only-configurations
+
+
 - job-group:
     name: upstream-project
     jobs:
