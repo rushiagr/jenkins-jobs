@@ -22,7 +22,12 @@ else
     delete_old=""
 fi
 
-jenkins-jobs update ${delete_old} ${tmp} $@
+if [ -n "$CONFIG" ]
+then
+	confopt="--conf=${CONFIG}"
+fi
+
+jenkins-jobs $confopt update ${delete_old} ${tmp} $@
 
 deactivate
 
