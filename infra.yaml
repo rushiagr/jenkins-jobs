@@ -33,6 +33,9 @@
           target: 'infra'
           source: 'build/html/**'
           remove-prefix: 'build/html'
+      - ircbot:
+          strategy: all
+          matrix-notifier: only-configurations
 
     properties:
       - github:

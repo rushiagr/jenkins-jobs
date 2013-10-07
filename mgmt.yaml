@@ -17,3 +17,8 @@
     properties:
       - github:
           url: https://github.com/JioCloud/jenkins-jobs.git
+
+    publishers:
+      - ircbot:
+          strategy: all
+          matrix-notifier: only-configurations
