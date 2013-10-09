@@ -19,7 +19,7 @@
 
     publishers:
       - ircbot:
-          strategy: any-failure
+          strategy: failure-and-fixed
           matrix-notifier: only-configurations
 
 
