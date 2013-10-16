@@ -93,3 +93,8 @@
     jobs:
       - upstream-project
 
+- project:
+    name: oslo-incubator
+    jobs:
+      - upstream-project
+
