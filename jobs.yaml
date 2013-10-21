@@ -26,77 +26,90 @@
 
 - job-group:
     name: upstream-project
-    organization: openstack
     jobs:
       - "{name}-upstream"
 
 - project:
     name: nova
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-novaclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: glance
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-glanceclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: horizon
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: swift
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-swiftclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: keystone
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-keystoneclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: neutron
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-neutronclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: cinder
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: python-cinderclient
+    organization: openstack
     jobs:
       - upstream-project
 
 - project:
     name: oslo-incubator
+    organization: openstack
     jobs:
       - upstream-project
 
