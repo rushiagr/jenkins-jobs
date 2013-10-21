@@ -27,7 +27,12 @@ then
 	confopt="--conf=${CONFIG}"
 fi
 
-jenkins-jobs $confopt update ${delete_old} ${tmp} $@
+if [ $1 = "test" ]
+then
+	jenkins-jobs $confopt test ${tmp} -o $2
+else
+	jenkins-jobs $confopt update ${delete_old} ${tmp} $@
+fi
 
 deactivate
 
