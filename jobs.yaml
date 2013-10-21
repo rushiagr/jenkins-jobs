@@ -4,9 +4,10 @@
     node: cloud
     scm:
       - git:
-          url: https://github.com/openstack/{name}.git
+          url: https://github.com/{organization}/{name}.git
           branches:
             - master
+
     triggers:
       - pollscm: "H/15 * * * *"
 
@@ -15,7 +16,7 @@
 
     properties:
       - github:
-          url: https://github.com/openstack/{name}/
+          url: https://github.com/{organization}/{name}/
 
     publishers:
       - ircbot:
@@ -25,6 +26,7 @@
 
 - job-group:
     name: upstream-project
+    organization: openstack
     jobs:
       - "{name}-upstream"
 
@@ -98,3 +100,8 @@
     jobs:
       - upstream-project
 
+- project:
+    name: basicdb
+    organization: sorenh
+    jobs:
+      - upstream-project
