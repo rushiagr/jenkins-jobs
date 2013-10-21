@@ -27,7 +27,7 @@ then
 	confopt="--conf=${CONFIG}"
 fi
 
-if [ $1 = "test" ]
+if [ "$1" = "test" ]
 then
 	jenkins-jobs $confopt test ${tmp} -o $2
 else
