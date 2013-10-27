@@ -118,3 +118,36 @@
     organization: sorenh
     jobs:
       - upstream-project
+
+
+- job:
+    name: cinder-dev
+    project-style: freestyle
+    node: cloud
+    scm:
+      - git:
+          url: https://github.com/openstack/cinder.git
+          name: origin
+          branches:
+            - origin/master
+      - git:
+          url: https://github.com/JioCloud/cinder.git
+          name: jiocloud
+          merge:
+            branch: jiocloud/dev/master
+
+    triggers:
+      - pollscm: "H/15 * * * *"
+
+    builders:
+      - shell: "#echo test;#tox -e py27"
+
+    properties:
+      - github:
+          url: https://github.com/JioCloud/cinder/
+
+    publishers:
+      - ircbot:
+          strategy: failure-and-fixed
+          matrix-notifier: only-configurations
+
