@@ -131,7 +131,7 @@
           branches:
             - origin/master
       - git:
-          url: https://jiojenkins:<jiojenkinspass>@github.com/JioCloud/cinder.git
+          url: https://jiojenkins_jiojenkinspass@github.com/JioCloud/cinder.git
           name: jiocloud
           merge:
             branch: jiocloud/dev/master
