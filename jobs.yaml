@@ -151,7 +151,7 @@
           push-merge: false
           push-only-if-success: true
           branches:
-            - branch: 
+            - branch:
                 remote: jiocloud
                 name: "dev/master"
       - ircbot:
