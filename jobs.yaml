@@ -131,7 +131,7 @@
           branches:
             - origin/master
       - git:
-          url: https://jiojenkins_jiojenkinspass@github.com/JioCloud/cinder.git
+          url: https://jiojenkins:<jiojenkinspassword>@github.com/JioCloud/cinder.git
           name: jiocloud
           merge:
             branch: jiocloud/dev/master
@@ -147,13 +147,13 @@
           url: https://github.com/JioCloud/cinder/
 
     publishers:
-#      -git
-#          push-merge: false
-#          push-only-if-success: true
-#          branches:
-#            - branch:
-#                remote: jiocloud
-#                name: dev/master
+      - git:
+          push-merge: false
+          push-only-if-success: true
+          branches:
+            - branch:
+                remote: jiocloud
+                name: dev/master
       - ircbot:
           strategy: failure-and-fixed
           matrix-notifier: only-configurations
