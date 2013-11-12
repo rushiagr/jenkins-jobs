@@ -140,7 +140,7 @@
       - pollscm: "H/15 * * * *"
 
     builders:
-      - shell: "#echo test;#tox -e py27"
+      - shell: "tox -e py27"
 
     properties:
       - github:
