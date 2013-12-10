@@ -2,6 +2,11 @@
     name: "{name}-upstream"
     project-type: freestyle
     node: cloud
+    logrotate:
+      daysToKeep: 10
+      numToKeep: 20
+      artifactDaysToKeep: 7
+      artifactNumToKeep: 15
     scm:
       - git:
           url: https://github.com/{organization}/{name}.git
