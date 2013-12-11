@@ -1,7 +1,7 @@
 - job-template:
     name: "{name}-upstream"
     project-type: freestyle
-    node: cloud
+    #node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
