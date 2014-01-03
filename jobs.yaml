@@ -128,6 +128,7 @@
 - job:
     name: cinder-jiocloud
     project-style: freestyle
+    node: cloud
     scm:
       - git:
           url: git@github.com:openstack/cinder.git
