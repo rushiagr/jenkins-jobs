@@ -28,11 +28,85 @@
           strategy: failure-and-fixed
           matrix-notifier: only-configurations
 
+- job-template:
+    name: "{name}-jiocloud"
+    project-style: freestyle
+    node: cloud
+    logrotate:
+      daysToKeep: 10
+      numToKeep: 20
+      artifactDaysToKeep: 7
+      artifactNumToKeep: 15
+    scm:
+      - git:
+          url: git@github.com:openstack/{name}.git
+          name: origin
+          branches:
+            - origin/master
+      - git:
+          url: git@github.com:JioCloud/{name}.git
+          name: jiocloud
+          merge:
+            branch: jiocloud/devmaster
+
+    triggers:
+      - pollscm: "H/15 * * * *"
+
+    builders:
+      - shell: |
+          #!/bin/bash
+          if [ "${{GIT_BRANCH}}" = "origin/master" ]
+          then
+            # First make sure we have a local branch to work with
+            if ! git checkout jiocloud_master
+            then
+                git checkout -b jiocloud_master jiocloud/master
+            fi
+            # ...then make sure it's up-to-date.
+            git pull jiocloud master
+
+            # Attempt rebasing it on top of upstream master
+            if ! git rebase origin/master
+            then
+                # If this fails, clean up...
+                git rebase --abort
+                # and exit with an error
+                exit 1
+            fi
+
+            TAGNAME="rebase_${{BUILD_ID}}"
+          elif [ "${{GIT_BRANCH}}" = "jiocloud/devmaster" ]
+            # Jenkins should have already made sure that it's checked
+            # so we don't need to do anything here.
+            TAGNAME="forced_${{BUILD_ID}}"
+          else
+            echo "Not sure what to do with branch ${{GIT_BRANCH}}"
+            exit 1
+          fi
+
+          # Run the tests.
+          if tox -e py27
+          then
+              # If that works out, tag it and push to github
+              git tag "${{TAGNAME}}"
+              git push jiocloud +HEAD:master "${{TAGNAME}}"
+          fi
+
+    properties:
+      - github:
+          url: https://github.com/JioCloud/{name}/
+
+    publishers:
+      - ircbot:
+          strategy: failure-and-fixed
+          matrix-notifier: only-configurations
+
 
 - job-group:
     name: upstream-project
     jobs:
       - "{name}-upstream"
+      - "{name}-jiocloud"
 
 - project:
     name: nova
@@ -124,79 +198,4 @@
     jobs:
       - upstream-project
 
-
-- job:
-    name: cinder-jiocloud
-    project-style: freestyle
-    node: cloud
-    scm:
-      - git:
-          url: git@github.com:openstack/cinder.git
-          name: origin
-          branches:
-            - origin/master
-      - git:
-          url: git@github.com:JioCloud/cinder.git
-          name: jiocloud
-          merge:
-            branch: jiocloud/devmaster
-
-    triggers:
-      - pollscm: "H/15 * * * *"
-
-    builders:
-      - shell: |
-          #!/bin/bash
-          if [ "$GIT_BRANCH" = "origin/master" ]
-          then
-            # First make sure we have a local branch to work with
-            if ! git checkout jiocloud_master
-            then
-                git checkout -b jiocloud_master jiocloud/master
-            fi
-            # ...then make sure it's up-to-date.
-            git pull jiocloud master
-
-            # Attempt rebasing it on top of upstream master
-            if ! git rebase origin/master
-            then
-                # If this fails, clean up...
-                git rebase --abort
-                # and exit with an error
-                exit 1
-            fi
-
-            TAGNAME="rebase_${BUILD_ID}"
-          elif [ "$GIT_BRANCH" = "jiocloud/devmaster" ]
-            # Jenkins should have already made sure that it's checked
-            # so we don't need to do anything here.
-            TAGNAME="forced_${BUILD_ID}"
-          else
-            echo "Not sure what to do with branch $GIT_BRANCH"
-            exit 1
-          fi
-
-          # Run the tests.
-          if tox -e py27
-          then
-              # If that works out, tag it and push to github
-              git tag "${TAGNAME}"
-              git push jiocloud +HEAD:master "${TAGNAME}"
-          fi
-
-    properties:
-      - github:
-          url: https://github.com/JioCloud/cinder/
-
-    publishers:
-      - git:
-          push-merge: false
-          push-only-if-success: true
-          branches:
-            - branch:
-                remote: jiocloud
-                name: dev/master
-      - ircbot:
-          strategy: failure-and-fixed
-          matrix-notifier: only-configurations
 
