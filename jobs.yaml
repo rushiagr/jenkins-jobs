@@ -32,6 +32,7 @@
     name: "{name}-jiocloud"
     project-style: freestyle
     node: cloud
+    disabled: true
     logrotate:
       daysToKeep: 10
       numToKeep: 20
