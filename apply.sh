@@ -20,7 +20,7 @@ then
     . venv/bin/activate
     pip install -e bzr+http://bazaar.launchpad.net/~soren/python-jenkins/add-crumb#egg=jenkins
     pip install pyyaml
-    pip install -e git+https://github.com/openstack-infra/jenkins-job-builder#egg=jenkins_job_builder
+    pip install -e git+https://github.com/JioCloud/jenkins-job-builder#egg=jenkins_job_builder
     deactivate
 fi
 
