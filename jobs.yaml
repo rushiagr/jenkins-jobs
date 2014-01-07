@@ -43,11 +43,13 @@
           name: origin
           branches:
             - origin/master
+          credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
       - git:
           url: git@github.com:JioCloud/{name}.git
           name: jiocloud
           branches:
             - jiocloud/devmaster
+          credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
     triggers:
       - pollscm: "H/15 * * * *"
