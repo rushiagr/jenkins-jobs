@@ -59,11 +59,11 @@
           #!/bin/bash
           if ! git remote | grep ^origin$
           then
-              git remote add origin git@github.com:{{organization}}/{{project}}.git
+              git remote add origin git@github.com:{organization}/{name}.git
           fi
           if ! git remote | grep ^jiocloud$
           then
-              git remote add jiocloud git@github.com:jiocloud/{{project}}.git
+              git remote add jiocloud git@github.com:jiocloud/{name}.git
           fi
           if [ "${{GIT_BRANCH}}" = "origin/master" ]
           then
