@@ -63,7 +63,7 @@
           fi
           if ! git remote | grep ^jiocloud$
           then
-              git remote add jiocloud git@github.com:jiocloud/{name}.git
+              git remote add jiocloud git@github.com:JioCloud/{name}.git
           fi
           if [ "${{GIT_BRANCH}}" = "origin/master" ]
           then
