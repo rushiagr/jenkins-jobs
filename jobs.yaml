@@ -18,6 +18,11 @@
 
     builders:
       - shell: "tox -e py27"
+      - trigger-builds:
+          - project: "{name}-jiocloud"
+            predefined-parameters: |
+              branch=${{GIT_BRANCH}}
+              commit=${{GIT_COMMIT}}
 
     properties:
       - github:
@@ -28,9 +33,15 @@
           strategy: failure-and-fixed
           matrix-notifier: only-configurations
 
+
 - job-template:
     name: "{name}-jiocloud"
     project-style: freestyle
+    parameters:
+      - string:
+          name: branch
+          default: unknown
+          description: "The branch that triggered the upstream build"
     node: cloud
     logrotate:
       daysToKeep: 10
@@ -39,24 +50,15 @@
       artifactNumToKeep: 15
     scm:
       - git:
-          url: git@github.com:openstack/{name}.git
-          name: origin
-          branches:
-            - origin/master
-          credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
-      - git:
           url: git@github.com:JioCloud/{name}.git
           name: jiocloud
           branches:
             - jiocloud/devmaster
           credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
-    triggers:
-      - pollscm: "H/15 * * * *"
-
     builders:
       - shell: |
-          #!/bin/bash
+          #!/bin/bash -x
           if ! git remote | grep ^origin$
           then
               git remote add origin git@github.com:{organization}/{name}.git
@@ -65,7 +67,7 @@
           then
               git remote add jiocloud git@github.com:JioCloud/{name}.git
           fi
-          if [ "${{GIT_BRANCH}}" = "origin/master" ]
+          if [ "${{branch}}" = "origin/master" ]
           then
             # First make sure we have a local branch to work with
             if ! git checkout jiocloud_master
@@ -75,8 +77,16 @@
             # ...then make sure it's up-to-date.
             git pull jiocloud master
 
+            git fetch origin $(echo "${{branch}}" | cut -f2- -d/)
+
+            if [ -n "${{commit}}" ]
+            then
+                BASE=${{commit}}
+            else
+                BASE=FETCH_HEAD
+            fi
             # Attempt rebasing it on top of upstream master
-            if ! git rebase origin/master
+            if ! git rebase ${{BASE}}
             then
                 # If this fails, clean up...
                 git rebase --abort
@@ -84,14 +94,20 @@
                 exit 1
             fi
 
-            TAGNAME="rebase_${{BUILD_ID}}"
-          elif [ "${{GIT_BRANCH}}" = "jiocloud/devmaster" ]
+            COMMIT_TO_PUSH="HEAD"
+            TAGNAME="d${{BUILD_ID}}_rebase"
+          elif [ "${{branch}}" = "unknown" -a "${{GIT_COMMIT}}" != "${{GIT_PREVIOUS_COMMIT}}" ] || [ "${{branch}}" = "jiocloud/devmaster" ]
           then
-            # Jenkins should have already made sure that it's checked
+            # Jenkins should have already made sure that it's checked out
             # so we don't need to do anything here.
-            TAGNAME="forced_${{BUILD_ID}}"
+            TAGNAME="d${{BUILD_ID}}_forced"
+            COMMIT_TO_PUSH="${{GIT_COMMIT}}"
+          elif [ "${{branch}}" = "unknown" ]
+          then
+              echo "No branch set and no changes detected. Erring on the side of caution and bailing out."
+              exit 0
           else
-            echo "Not sure what to do with branch ${{GIT_BRANCH}}"
+            echo "Not sure what to do with branch ${{branch}}"
             exit 1
           fi
 
@@ -100,7 +116,7 @@
           then
               # If that works out, tag it and push to github
               git tag "${{TAGNAME}}"
-              git push jiocloud +HEAD:master "${{TAGNAME}}"
+              git push jiocloud +${{COMMIT_TO_PUSH}}:master "${{TAGNAME}}"
           else
               exit 1
           fi
