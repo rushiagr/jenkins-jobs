@@ -47,8 +47,8 @@
       - git:
           url: git@github.com:JioCloud/{name}.git
           name: jiocloud
-          merge:
-            branch: jiocloud/devmaster
+          branches:
+            - jiocloud/devmaster
 
     triggers:
       - pollscm: "H/15 * * * *"
@@ -104,6 +104,10 @@
       - ircbot:
           strategy: failure-and-fixed
           matrix-notifier: only-configurations
+
+    wrappers:
+      - ssh-agent:
+          credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
 
 - job-group:
