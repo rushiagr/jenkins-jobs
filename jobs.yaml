@@ -92,6 +92,8 @@
               # If that works out, tag it and push to github
               git tag "${{TAGNAME}}"
               git push jiocloud +HEAD:master "${{TAGNAME}}"
+          else
+              exit 1
           fi
 
     properties:
