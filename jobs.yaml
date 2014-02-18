@@ -245,7 +245,7 @@
           url: git@github.com:JioCloud/horizon.git
           name: jiocloud
           branches:
-            - jiocloud/jio_homepage
+            - jiocloud/jio_dashboard
           basedir: build
           credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
@@ -261,7 +261,7 @@
               git checkout -b packaging jiocloud/packaging
           fi
           git checkout packaging
-          git rebase jiocloud/jio_homepage
+          git rebase jiocloud/jio_dashboard
           dpkg-buildpackage -b
           git push jiocloud packaging || true
 
