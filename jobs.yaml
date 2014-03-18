@@ -250,7 +250,7 @@
       artifactNumToKeep: 15
     scm:
       - git:
-          url: git@github.com:JioCloud/horizon.git
+          url: git@github.com:JioCloud/{name}.git
           name: jiocloud
           branches:
             - "{pkgbranch}"
