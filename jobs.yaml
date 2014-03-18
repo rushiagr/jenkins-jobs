@@ -168,8 +168,16 @@
 - project:
     name: horizon
     organization: openstack
+    pkgbranch: jiocloud/jio_dashboard
     jobs:
       - upstream-project
+      - '{name}-pkg-temp'
+
+- project:
+    name: reg-service
+    pkgbranch: jiocloud/master
+    jobs:
+      - '{name}-pkg-temp'
 
 - project:
     name: swift
@@ -231,8 +239,8 @@
     jobs:
       - upstream-project
 
-- job:
-    name: "horizon-pkg-temp"
+- job-template:
+    name: "{name}-pkg-temp"
     project-style: freestyle
     node: cloud
     logrotate:
@@ -245,7 +253,7 @@
           url: git@github.com:JioCloud/horizon.git
           name: jiocloud
           branches:
-            - jiocloud/jio_dashboard
+            - "{pkgbranch}"
           basedir: build
           credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
@@ -267,7 +275,7 @@
 
     properties:
       - github:
-          url: https://github.com/JioCloud/horizon/
+          url: https://github.com/JioCloud/{name}/
 
     publishers:
       - ircbot:
