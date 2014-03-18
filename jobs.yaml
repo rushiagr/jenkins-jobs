@@ -269,7 +269,7 @@
               git checkout -b packaging jiocloud/packaging
           fi
           git checkout packaging
-          git rebase jiocloud/jio_dashboard
+          git rebase {pkgbranch}
           dpkg-buildpackage -b
           git push jiocloud packaging || true
 
