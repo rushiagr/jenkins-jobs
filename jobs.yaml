@@ -254,6 +254,7 @@
           name: jiocloud
           branches:
             - "{pkgbranch}"
+            - jiocloud/packaging
           basedir: build
           credentials-id: 46c0cb26-2b11-443c-b556-0f7631f02410
 
