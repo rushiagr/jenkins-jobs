@@ -264,7 +264,7 @@
     builders:
       - shell: |
           #!/bin/bash -xe
-          rm *.deb
+          rm -f *.deb
           cd build
           if ! git checkout packaging
           then
