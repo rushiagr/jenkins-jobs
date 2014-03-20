@@ -33,6 +33,36 @@
           strategy: failure-and-fixed
           matrix-notifier: only-configurations
 
+- job-template:
+    name: "{name}-upstream-havana"
+    project-type: freestyle
+    node: cloud
+    logrotate:
+      daysToKeep: 10
+      numToKeep: 20
+      artifactDaysToKeep: 7
+      artifactNumToKeep: 15
+    scm:
+      - git:
+          url: https://github.com/{organization}/{name}.git
+          branches:
+            - stable/havana
+
+    triggers:
+      - pollscm: "H/15 * * * *"
+
+    builders:
+      - shell: "tox -e py27"
+
+    properties:
+      - github:
+          url: https://github.com/{organization}/{name}/
+
+    publishers:
+      - ircbot:
+          strategy: failure-and-fixed
+          matrix-notifier: only-configurations
+
 
 - job-template:
     name: "{name}-jiocloud"
@@ -145,6 +175,7 @@
     name: upstream-project
     jobs:
       - "{name}-upstream"
+      - "{name}-upstream-havana"
       - "{name}-jiocloud"
 
 - project:
