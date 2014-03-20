@@ -136,6 +136,12 @@
 
 
 - job-group:
+    name: upstream-project-nostable
+    jobs:
+      - "{name}-upstream"
+      - "{name}-jiocloud"
+
+- job-group:
     name: upstream-project
     jobs:
       - "{name}-upstream"
@@ -151,7 +157,7 @@
     name: python-novaclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: glance
@@ -163,7 +169,7 @@
     name: python-glanceclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: horizon
@@ -189,7 +195,7 @@
     name: python-swiftclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: keystone
@@ -201,7 +207,7 @@
     name: python-keystoneclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: neutron
@@ -213,7 +219,7 @@
     name: python-neutronclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: cinder
@@ -225,7 +231,7 @@
     name: python-cinderclient
     organization: openstack
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - project:
     name: oslo-incubator
@@ -237,7 +243,7 @@
     name: basicdb
     organization: sorenh
     jobs:
-      - upstream-project
+      - upstream-project-nostable
 
 - job-template:
     name: "{name}-pkg-temp"
