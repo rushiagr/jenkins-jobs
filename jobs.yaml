@@ -11,7 +11,7 @@
       - git:
           url: https://github.com/{organization}/{name}.git
           branches:
-            - master
+            - '{srcbranch}'
 
     triggers:
       - pollscm: "H/15 * * * *"
@@ -71,7 +71,7 @@
       - string:
           name: branch
           default: unknown
-          description: "The branch that triggered the upstream build"
+          description: "The branch that triggered the upstream build (if any)"
     node: cloud
     logrotate:
       daysToKeep: 10
@@ -89,6 +89,7 @@
     builders:
       - shell: |
           #!/bin/bash -x
+          # Make sure we have all the relevant remotes
           if ! git remote | grep ^origin$
           then
               git remote add origin git@github.com:{organization}/{name}.git
@@ -97,7 +98,7 @@
           then
               git remote add jiocloud git@github.com:JioCloud/{name}.git
           fi
-          if [ "${{branch}}" = "origin/master" ]
+          if [ "${{branch}}" = "origin/{srcbranch}" ]
           then
             # First make sure we have a local branch to work with
             if ! git checkout jiocloud_master
@@ -107,6 +108,7 @@
             # ...then make sure it's up-to-date.
             git pull jiocloud master
 
+            # Make sure we have the relevant commit
             git fetch origin $(echo "${{branch}}" | cut -f2- -d/)
 
             if [ -n "${{commit}}" ]
@@ -167,12 +169,14 @@
 
 - job-group:
     name: upstream-project-nostable
+    srcbranch: master
     jobs:
       - "{name}-upstream"
       - "{name}-jiocloud"
 
 - job-group:
     name: upstream-project
+    srcbranch: stable/havana
     jobs:
       - "{name}-upstream"
       - "{name}-upstream-havana"
