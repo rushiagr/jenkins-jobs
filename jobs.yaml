@@ -193,12 +193,6 @@
       - '{name}-pkg-temp'
 
 - project:
-    name: swift
-    organization: openstack
-    jobs:
-      - upstream-project
-
-- project:
     name: python-swiftclient
     organization: openstack
     jobs:
