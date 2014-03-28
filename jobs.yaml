@@ -125,6 +125,8 @@
           else
               exit 1
           fi
+      - trigger-builds:
+          - project: "{name}-pkg"
 
     properties:
       - github:
@@ -171,8 +173,10 @@
 - project:
     name: glance
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project
+      - '{name}-pkg'
 
 - project:
     name: python-glanceclient
@@ -203,8 +207,10 @@
 - project:
     name: keystone
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project
+      - '{name}-pkg'
 
 - project:
     name: python-keystoneclient
@@ -215,8 +221,10 @@
 - project:
     name: neutron
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project
+      - '{name}-pkg'
 
 - project:
     name: python-neutronclient
@@ -227,8 +235,10 @@
 - project:
     name: cinder
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project
+      - '{name}-pkg'
 
 - project:
     name: python-cinderclient
