@@ -261,6 +261,10 @@
           default: unknown
           description: "The build number that triggered us"
     builders:
+      - shell: |
+          #!/bin/bash -xe
+          rm -rf incoming || true
+
       - copyartifact:
           project: ${triggering_job}
           filter: "*"
