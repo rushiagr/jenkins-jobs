@@ -273,12 +273,13 @@
           build-number: ${triggering_build_number}
           optional: true
           flatten: true
+
       - shell: |
           #!/bin/bash -xe
           cd incoming
           for x in *.changes
           do
-            reprepro -b $HOME/aptrepo include precise ${x}
+            GNUPGHOME=$HOME/aptrepo/gpg reprepro -b $HOME/aptrepo include precise ${x}
           done
 
 
@@ -295,6 +296,7 @@
       - git:
           url: git@github.com:JioCloud/{name}.git
           name: jiocloud
+          refspec: '+refs/heads/*:refs/remotes/jiocloud/*'
           branches:
             - "{codebranch}"
             - jiocloud/packaging
@@ -311,33 +313,35 @@
 
           cd build
 
+          # This is ridiculous
+          git checkout -b tmp
+          git fetch jiocloud
+          git branch -D master || true
+          git branch -D packaging || true
+          git branch -t master {codebranch}
+          git branch -t packaging jiocloud/packaging
+
           # We could have been triggered either by a change on the pkg
           # branch or master. First, we need master.
-          if ! git checkout master
-          then
-              git branch -t master {codebranch}
-              git checkout master
-          fi
-          git pull
+          git checkout master
+
+          git branch -D tmp
 
           # This gives us something like 2014.1.2.dev3.f72b5de
           upstream_version=$(python setup.py --version)
           upstream_name=$(python setup.py --name)
 
-          python setup.py sdist
+          python  setup.py sdist
           mv dist/*.tar.gz ../${{upstream_name}}_${{upstream_version}}.orig.tar.gz
 
           # Clean up
           git clean -dfx
 
           # Now grab packaging
-          if ! git checkout packaging
-          then
-              git checkout -b packaging jiocloud/packaging
-          fi
+          git checkout packaging
 
           # and rebase it on the code branch
-          git rebase {codebranch}
+          git rebase {codebranch} || git rebase --abort
 
           # Keep the current epoch
           current_epoch=$(dpkg-parsechangelog  | grep ^Version: | cut -f2 -d' ' | grep -o ^.*:)
@@ -352,7 +356,7 @@
           # and build the source package
           dpkg-buildpackage -S -nc --source-option=--auto-commit
           cd ..
-          sbuild -n -d precise -A *.dsc
+          DEB_BUILD_OPTIONS=nocheck sbuild -n -d precise -A *.dsc
       - trigger-builds:
           - project: "process-pkg"
             predefined-parameters: |
