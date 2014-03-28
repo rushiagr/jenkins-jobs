@@ -248,6 +248,36 @@
     jobs:
       - upstream-project-nostable
 
+- job:
+    name: process-pkg
+    node: master
+    parameters:
+      - string:
+          name: triggering_job
+          default: unknown
+          description: "The job that triggered us"
+      - string:
+          name: triggering_build_number
+          default: unknown
+          description: "The build number that triggered us"
+    builders:
+      - copyartifact:
+          project: ${triggering_job}
+          filter: "*"
+          target: incoming
+          which-build: specific-build
+          build-number: ${triggering_build_number}
+          optional: true
+          flatten: true
+      - shell: |
+          #!/bin/bash -xe
+          cd incoming
+          for x in *.changes
+          do
+            reprepro -b $HOME/aptrepo include precise ${x}
+          done
+
+
 - job-template:
     name: "{name}-pkg"
     project-style: freestyle
