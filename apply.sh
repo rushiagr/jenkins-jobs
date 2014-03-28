@@ -24,10 +24,19 @@ then
     deactivate
 fi
 
+. venv/bin/activate
+
+if [ -z "$NO_JJB_REFRESH" ]
+then
+    cd venv/src/jenkins-job-builder
+    git fetch
+    git reset --hard origin/master
+	python setup.py install
+    cd -
+fi
+
 tmp=$(mktemp)
 cat *.yaml > "${tmp}"
-
-. venv/bin/activate
 
 if [ $# -eq 0 ]
 then
