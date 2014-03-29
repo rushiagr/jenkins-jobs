@@ -1,6 +1,7 @@
 - job:
     name: "jobs-refresh"
     project-type: freestyle
+    node: master
     scm:
       - git:
           url: https://github.com/JioCloud/jenkins-jobs.git
