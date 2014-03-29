@@ -368,12 +368,6 @@
           dpkg-buildpackage -S -nc --source-option=--auto-commit
           cd ..
           DEB_BUILD_OPTIONS=nocheck sbuild -n -d precise -A *.dsc
-      - trigger-builds:
-          - project: "process-pkg"
-            predefined-parameters: |
-              triggering_job=${{JOB_NAME}}
-              triggering_build_number=${{BUILD_NUMBER}}
-
 
     properties:
       - copyartifact:
@@ -388,6 +382,12 @@
       - archive:
           artifacts: '*.dsc,*.diff.gz,*.tar.gz,*.changes,*.deb'
           allow-empty: 'true'
+      - trigger-parameterized-builds:
+          - project: "process-pkg"
+            condition: UNSTABLE_OR_BETTER
+            predefined-parameters: |
+              triggering_job=${{JOB_NAME}}
+              triggering_build_number=${{BUILD_NUMBER}}
 
     wrappers:
       - ssh-agent:
