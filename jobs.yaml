@@ -286,6 +286,7 @@
 
       - shell: |
           #!/bin/bash -xe
+          find
           cd incoming
           for x in *.changes
           do
