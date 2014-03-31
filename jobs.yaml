@@ -167,8 +167,10 @@
 - project:
     name: python-novaclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: glance
@@ -181,8 +183,10 @@
 - project:
     name: python-glanceclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: horizon
@@ -201,8 +205,10 @@
 - project:
     name: python-swiftclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: keystone
@@ -215,8 +221,10 @@
 - project:
     name: python-keystoneclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: neutron
@@ -229,8 +237,10 @@
 - project:
     name: python-neutronclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: cinder
@@ -243,8 +253,10 @@
 - project:
     name: python-cinderclient
     organization: openstack
+    codebranch: jiocloud/master
     jobs:
       - upstream-project-nostable
+      - '{name}-pkg'
 
 - project:
     name: oslo-incubator
