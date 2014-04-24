@@ -192,6 +192,7 @@
     name: horizon
     organization: openstack
     pkgbranch: jiocloud/jio_dashboard
+    codebranch: jiocloud/jio_dashboard
     jobs:
       - upstream-project
       - '{name}-pkg-temp'
