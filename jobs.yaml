@@ -389,6 +389,7 @@
           dpkg-buildpackage -S -nc --source-option=--auto-commit
           cd ..
           DEB_BUILD_OPTIONS=nocheck sbuild -n -d precise -A *.dsc
+          git push jiocloud packaging || true
 
     properties:
       - copyartifact:
