@@ -195,7 +195,6 @@
     codebranch: jiocloud/jio_dashboard
     jobs:
       - upstream-project
-      - '{name}-pkg-temp'
       - '{name}-pkg'
 
 - project:
