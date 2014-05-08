@@ -1,7 +1,7 @@
 - job:
     name: "infra-docs"
     project-type: freestyle
-    node: cloud
+    node: master
     scm:
       - git:
           url: https://github.com/JioCloud/infrastructure-docs
