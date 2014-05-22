@@ -199,9 +199,11 @@
 
 - project:
     name: reg-service
+    codebranch: jiocloud/master
     pkgbranch: jiocloud/master
     jobs:
       - '{name}-pkg-temp'
+      - '{name}-pkg'
 
 - project:
     name: python-swiftclient
@@ -375,7 +377,7 @@
           git rebase {codebranch} || git rebase --abort
 
           # Keep the current epoch
-          current_epoch=$(dpkg-parsechangelog  | grep ^Version: | cut -f2 -d' ' | grep -o ^.*:)
+          current_epoch=$(dpkg-parsechangelog  | grep ^Version: | cut -f2 -d' ' | grep -o ^.*: || true)
 
           # Someone needs to tak the blame
           export DEBEMAIL=Soren.Hansen@ril.com
