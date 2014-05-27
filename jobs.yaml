@@ -189,6 +189,22 @@
       - '{name}-pkg'
 
 - project:
+    name: heat
+    organization: openstack
+    codebranch: jiocloud/master
+    jobs:
+      - upstream-project
+      - '{name}-pkg'
+
+- project:
+    name: ceilometer
+    organization: openstack
+    codebranch: jiocloud/master
+    jobs:
+      - upstream-project
+      - '{name}-pkg'
+
+- project:
     name: horizon
     organization: openstack
     pkgbranch: jiocloud/jio_dashboard
