@@ -289,6 +289,25 @@
       - upstream-project-nostable
 
 - job:
+    name: contrail
+    node: cloud
+    scm:
+      - repo:
+          manifest-url: https://github.com/sorenh/contrail-vnc
+          manifest-file: noauth.xml
+
+    triggers:
+      - pollscm: "H/15 * * * *"
+
+    builders:
+      - shell: |
+          #!/bin/bash -xe
+          cd third_party
+          python fetch_packages.py
+          cd ..
+          scons
+
+- job:
     name: process-pkg
     node: master
     parameters:
