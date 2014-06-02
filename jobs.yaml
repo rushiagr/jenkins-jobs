@@ -346,7 +346,7 @@
 
       - copyartifact:
           project: ${triggering_job}
-          filter: "*"
+          filter: "**"
           target: incoming
           which-build: specific-build
           build-number: ${triggering_build_number}
