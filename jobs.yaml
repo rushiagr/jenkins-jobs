@@ -299,13 +299,33 @@
     triggers:
       - pollscm: "H/15 * * * *"
 
+    properties:
+      - copyartifact:
+          projects: process-pkg
+
     builders:
       - shell: |
           #!/bin/bash -xe
           cd third_party
           python fetch_packages.py
           cd ..
-          scons
+          sed -i -e 's/buildpackage -S/& -uc -us/g' packages.make
+          rm -rf build/packages/*
+          make -f packages.make source-package-contrail source-package-ifmap-server source-package-neutron-plugin-contrail
+          cd build/packages
+          for x in *.dsc; do sbuild -n -d precise -A ${x}; done
+
+    publishers:
+      - archive:
+          artifacts: 'build/packages/*.dsc,build/packages/*.diff.gz,build/packages/*.tar.gz,build/packages/*.changes,build/packages/*.deb'
+          allow-empty: 'true'
+      - trigger-parameterized-builds:
+          - project: "process-pkg"
+            condition: UNSTABLE_OR_BETTER
+            predefined-parameters: |
+              triggering_job=${{JOB_NAME}}
+              triggering_build_number=${{BUILD_NUMBER}}
+
 
 - job:
     name: process-pkg
