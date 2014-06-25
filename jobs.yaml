@@ -293,7 +293,7 @@
     node: cloud
     scm:
       - repo:
-          manifest-url: https://github.com/sorenh/contrail-vnc
+          manifest-url: https://github.com/JioCloud/contrail-vnc
           manifest-file: noauth.xml
 
     triggers:
