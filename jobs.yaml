@@ -323,8 +323,8 @@
           - project: "process-pkg"
             condition: UNSTABLE_OR_BETTER
             predefined-parameters: |
-              triggering_job=${{JOB_NAME}}
-              triggering_build_number=${{BUILD_NUMBER}}
+              triggering_job=${JOB_NAME}
+              triggering_build_number=${BUILD_NUMBER}
 
 
 - job:
