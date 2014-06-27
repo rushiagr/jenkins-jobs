@@ -312,7 +312,7 @@
           cd ..
           sed -i -e 's/buildpackage -S/& -uc -us/g' packages.make
           rm -rf build/packages/*
-          make -f packages.make source-package-contrail source-package-contrail-webui-bundle source-package-neutron-plugin-contrail
+          make -f packages.make source-package-contrail source-package-neutron-plugin-contrail
           cd build/packages
           for x in *.dsc; do sbuild -n -d precise -A ${x} || true; done
 
