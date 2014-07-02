@@ -210,7 +210,7 @@
     pkgbranch: jiocloud/master
     codebranch: jiocloud/master
     jobs:
-      - upstream-project
+      - upstream-project-nostable
       - '{name}-pkg'
 
 - project:
