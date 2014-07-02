@@ -207,8 +207,8 @@
 - project:
     name: horizon
     organization: openstack
-    pkgbranch: jiocloud/jio_dashboard
-    codebranch: jiocloud/jio_dashboard
+    pkgbranch: jiocloud/master
+    codebranch: jiocloud/master
     jobs:
       - upstream-project
       - '{name}-pkg'
