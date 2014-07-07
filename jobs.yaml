@@ -73,13 +73,22 @@
           fi
           if [ "${{branch}}" = "origin/{srcbranch}" ]
           then
-            # First make sure we have a local branch to work with
-            if ! git checkout jiocloud_master
+            if git branch | grep jiocloud_master
             then
-                git checkout -b jiocloud_master jiocloud/master
+                # the "jiocloud_master" might be left in an inconsistent state by the previous run 
+                # so delete the existing jiocloud_master and do a fresh checkout
+                if [ "`git rev-parse --abbrev-ref HEAD`" == "jiocloud_master" ]
+                then
+                    # "jiocloud_master" can't be deleted, if we're currently on it
+                    # switch to master to delete the "jiocloud_master" branch
+                    git checkout master
+                fi
+                git branch -D jiocloud_master
+                # fetch the latest
+                git fetch jiocloud master
             fi
-            # ...then make sure it's up-to-date.
-            git pull jiocloud master
+            # First make sure we have a local branch to work with
+            git checkout -b jiocloud_master jiocloud/master
 
             # Make sure we have the relevant commit
             git fetch origin $(echo "${{branch}}" | cut -f2- -d/)
