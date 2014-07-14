@@ -236,11 +236,11 @@
                     git checkout master
                 fi
                 git branch -D jiocloud_master
-                # fetch the latest
-                git fetch jiocloud master
             fi
+            # fetch the latest
+            git fetch jiocloud master
             # First make sure we have a local branch to work with
-            git checkout -b jiocloud_master jiocloud/master
+            git checkout -b jiocloud_master FETCH_HEAD
 
             # Make sure we have the relevant commit
             git fetch origin $(echo "${{branch}}" | cut -f2- -d/)
