@@ -17,7 +17,7 @@
       - pollscm: "H/15 * * * *"
 
     builders:
-      - shell: "tox -e py27"
+      - shell: "rm -rf .tox; tox -e py27"
       - trigger-builds:
           - project: "{name}-jiocloud"
             predefined-parameters: |
@@ -125,6 +125,7 @@
             exit 1
           fi
 
+          rm -rf .tox
           # Run the tests.
           if tox -e py27
           then
@@ -169,7 +170,7 @@
       - pollscm: "H/15 * * * *"
 
     builders:
-      - shell: "tox -e py27"
+      - shell: "rm -rf .tox; tox -e py27"
       - trigger-builds:
           - project: "{name}-jiocloud-rebase-fix-testing"
             predefined-parameters: |
@@ -281,6 +282,7 @@
           git tag "${{TAGNAME}}"
           git push jiocloud +${{COMMIT_TO_PUSH}}:master "${{TAGNAME}}"
 
+          rm -rf .tox
           # Run the tests.
           if ! tox -e py27
           then
