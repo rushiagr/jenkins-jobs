@@ -1,7 +1,6 @@
 - job-template:
     name: "{name}-upstream"
     project-type: freestyle
-    node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -41,7 +40,6 @@
           name: branch
           default: unknown
           description: "The branch that triggered the upstream build (if any)"
-    node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -154,7 +152,6 @@
 - job-template:
     name: "{name}-upstream-rebase-fix-testing"
     project-type: freestyle
-    node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -194,7 +191,6 @@
           name: branch
           default: unknown
           description: "The branch that triggered the upstream build (if any)"
-    node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -459,7 +455,6 @@
 
 - job:
     name: contrail
-    node: cloud
     scm:
       - repo:
           manifest-url: https://github.com/JioCloud/contrail-vnc
@@ -499,7 +494,6 @@
 
 - job:
     name: process-pkg
-    node: master
     parameters:
       - string:
           name: triggering_job
@@ -537,7 +531,6 @@
 - job-template:
     name: "{name}-pkg"
     project-style: freestyle
-    node: cloud
     logrotate:
       daysToKeep: 10
       numToKeep: 20
