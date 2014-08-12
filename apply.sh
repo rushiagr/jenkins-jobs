@@ -52,9 +52,9 @@ fi
 
 if [ "$1" = "test" ]
 then
-    jenkins-jobs $confopt test ${tmp} -o $2
+    jenkins-jobs --flush-cache $confopt test ${tmp} -o $2
 else
-    jenkins-jobs $confopt update ${delete_old} ${tmp} $@
+    jenkins-jobs --flush-cache $confopt update ${delete_old} ${tmp} $@
 fi
 
 deactivate
