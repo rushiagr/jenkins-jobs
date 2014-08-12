@@ -1,6 +1,7 @@
 - job-template:
     name: "{name}-upstream"
     project-type: freestyle
+    disabled: true
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -35,6 +36,7 @@
 - job-template:
     name: "{name}-jiocloud"
     project-style: freestyle
+    disabled: true
     parameters:
       - string:
           name: branch
@@ -152,6 +154,7 @@
 - job-template:
     name: "{name}-upstream-rebase-fix-testing"
     project-type: freestyle
+    disabled: true
     logrotate:
       daysToKeep: 10
       numToKeep: 20
@@ -186,6 +189,7 @@
 - job-template:
     name: "{name}-jiocloud-rebase-fix-testing"
     project-style: freestyle
+    disabled: true
     parameters:
       - string:
           name: branch
@@ -531,6 +535,7 @@
 - job-template:
     name: "{name}-pkg"
     project-style: freestyle
+    disabled: true
     logrotate:
       daysToKeep: 10
       numToKeep: 20
