@@ -62,6 +62,10 @@
     builders:
       - shell: |
           #!/bin/bash -x
+          export PIP_INDEX_URL=http://pypi.openstack.org/openstack
+          export http_proxy=http://10.135.121.138:3128
+          export https_proxy=http://10.135.121.138:3128
+
           # Make sure we have all the relevant remotes
           if ! git remote | grep ^origin$
           then
